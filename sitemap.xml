@@ -3,6 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://osmten.github.io/tags/arm/</loc>
+    <lastmod>2022-04-29T16:12:28+05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osmten.github.io/posts/exceptions/</loc>
+    <lastmod>2022-04-29T16:12:28+05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osmten.github.io/tags/exceptions/</loc>
+    <lastmod>2022-04-29T16:12:28+05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osmten.github.io/posts/</loc>
+    <lastmod>2022-04-29T16:12:28+05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osmten.github.io/tags/</loc>
+    <lastmod>2022-04-29T16:12:28+05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://osmten.github.io/about/</loc>
     <lastmod>2022-04-28T02:44:47+05:00</lastmod>
   </url>
@@ -13,21 +38,12 @@
   </url>
   
   <url>
-    <loc>https://osmten.github.io/posts/</loc>
-    <lastmod>2022-04-27T20:19:28+05:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://osmten.github.io/posts/intro/</loc>
     <lastmod>2022-04-27T20:19:28+05:00</lastmod>
   </url>
   
   <url>
     <loc>https://osmten.github.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://osmten.github.io/tags/</loc>
   </url>
   
 </urlset>

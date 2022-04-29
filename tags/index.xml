@@ -5,6 +5,27 @@
     <link>https://osmten.github.io/tags/</link>
     <description>Recent content in Tags on Osama</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://osmten.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Apr 2022 16:12:28 +0500</lastBuildDate><atom:link href="https://osmten.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Arm</title>
+      <link>https://osmten.github.io/tags/arm/</link>
+      <pubDate>Fri, 29 Apr 2022 16:12:28 +0500</pubDate>
+      
+      <guid>https://osmten.github.io/tags/arm/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Exceptions</title>
+      <link>https://osmten.github.io/tags/exceptions/</link>
+      <pubDate>Fri, 29 Apr 2022 16:12:28 +0500</pubDate>
+      
+      <guid>https://osmten.github.io/tags/exceptions/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
   </channel>
 </rss>

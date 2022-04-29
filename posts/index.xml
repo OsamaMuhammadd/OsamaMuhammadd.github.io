@@ -6,7 +6,96 @@
     <description>Recent content in Posts on Osama</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 Apr 2022 20:19:28 +0500</lastBuildDate><atom:link href="https://osmten.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Apr 2022 16:12:28 +0500</lastBuildDate><atom:link href="https://osmten.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exception Trapping In Armv8</title>
+      <link>https://osmten.github.io/posts/exceptions/</link>
+      <pubDate>Fri, 29 Apr 2022 16:12:28 +0500</pubDate>
+      
+      <guid>https://osmten.github.io/posts/exceptions/</guid>
+      <description>In this post, I’ll write about exceptions trapping for an AARCH64 Hypervisor. I am working on my final year project, which is to write an AARCH64 hypervisor. If someone is not familiar with exception levels, please read this documentation. Let&amp;rsquo;s start trapping exceptions. Exceptions can be of different types. In order to simplify things, we will only trap synchronous exceptions from EL1 running in AARCH64 state. The smc instruction is used to generate a synchronous exception to the secure monitor.</description>
+      <content>&lt;p&gt;In this post, I’ll write about exceptions trapping for an AARCH64 Hypervisor. I am working on my final year project, which is to write an AARCH64 hypervisor. If someone is not familiar with exception levels, please read this documentation. Let&amp;rsquo;s start trapping exceptions. Exceptions can be of different types. In order to simplify things, we will only trap synchronous exceptions from EL1 running in AARCH64 state. The &lt;code&gt;smc&lt;/code&gt; instruction is used to generate a synchronous exception to the secure monitor. Note that these exceptions are normally headed to Exception Level 3. When an exception occurs, the normal flow is an exception from el1 is passed to the firmware at EL3. The exception is handled at EL3 and is returned to the exception level. But this is not always the case, especially when we are trapping exceptions. We can trap an exception at the hypervisor level(EL2), before it goes to EL3 or firmware.&lt;/p&gt;
+&lt;p&gt;To enable synchronous exception trapping, we need to set the 19th bit of HCR_EL2 register which is the TSC bit. It can be achieved with following code:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mrs x1,hcr_el2
+orr x1,x1, #(0x1&amp;lt;&amp;lt;19) 
+msr hcr_el2,x1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If someone finds this difficult to understand, mrs is used to move the system register to the general-purpose register. In the first line, we moved hcr_el2 to x1. In the second line, the last part means that we are right shifting the binary representation of &lt;code&gt;1&lt;/code&gt;, 19 times, which will set the 19th bit to 1 or move 1 to 19th bit. After that, we OR it with X1 and the result is saved to x1, which will set the 19th bit 1. In the last line, we moved the value in x1 to hcr_el2.&lt;/p&gt;
+&lt;p&gt;After setting the TCS bit, we should now implement the vector table. Below is the code which shows how the vector table is implemented.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// Typical exception vector table code.
+.balign 0x800
+Vector_table_el3:
+curr_el_sp0_sync: // The exception handler for a synchronous 
+                        // exception from the current EL using SP0.
+.balign 0x80
+curr_el_sp0_irq: // The exception handler for an IRQ exception
+                        // from the current EL using SP0.
+.balign 0x80
+curr_el_sp0_fiq: // The exception handler for an FIQ exception
+                        // from the current EL using SP0.
+.balign 0x80
+curr_el_sp0_serror: // The exception handler for a System Error 
+                        // exception from the current EL using SP0.
+.balign 0x80
+curr_el_spx_sync: // The exception handler for a synchronous 
+                        // exception from the current EL using the
+                        // current SP.
+.balign 0x80
+curr_el_spx_irq: // The exception handler for an IRQ exception from 
+                        // the current EL using the current SP.
+
+.balign 0x80
+curr_el_spx_fiq: // The exception handler for an FIQ from 
+                        // the current EL using the current SP.
+
+.balign 0x80
+curr_el_spx_serror: // The exception handler for a System Error 
+                        // exception from the current EL using the
+                        // current SP.
+
+.balign 0x80
+lower_el_aarch64_sync: // The exception handler for a synchronous 
+                        // exception from a lower EL (AArch64).
+
+.balign 0x80
+lower_el_aarch64_irq: // The exception handler for an IRQ from a lower EL
+                        // (AArch64).
+
+.balign 0x80
+lower_el_aarch64_fiq: // The exception handler for an FIQ from a lower EL
+                        // (AArch64).
+
+.balign 0x80
+lower_el_aarch64_serror: // The exception handler for a System Error 
+                        // exception from a lower EL(AArch64).
+
+.balign 0x80
+lower_el_aarch32_sync: // The exception handler for a synchronous 
+                        // exception from a lower EL(AArch32).
+.balign 0x80
+lower_el_aarch32_irq: // The exception handler for an IRQ exception 
+                        // from a lower EL (AArch32).
+.balign 0x80
+lower_el_aarch32_fiq: // The exception handler for an FIQ exception from 
+                        // a lower EL (AArch32).
+.balign 0x80
+lower_el_aarch32_serror: // The exception handler for a System Error
+                        // exception from a lower EL(AArch32).
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After creating the vector table we need to tell where our vector table is. To do this we need to pass the address of our vector table to the system register VBAR_EL2. Let&amp;rsquo;s suppose our vector table is of the name vector_table_el2 below is the code that will store the address.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;adr x2,vector_table_el2
+mrs VBAR_EL2,x2 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The base address is given by VBAR_ELn and each entry has a defined offset from this base address. Each table has 16 entries, with each entry being 128 bytes (32 instructions) in size. The table effectively consists of 4 sets of 4 entries.
+Each entry is classified as an exception type. Each exception is handled by the respective handler.16 entries are divided in 4 sets depending on:
+-&amp;gt;If the exception is being taken at the same Exception level, the stack pointer to be used (SP0 or SPn)
+-&amp;gt;If the exception is being taken at a lower Exception level, the Execution state of the next lower level (AArch64 or AArch32).
+Let&amp;rsquo;s take an example
+.balign 0x80
+sync_lower_64:
+//we will write the code here to handle the exception or forward it to Exception Level 3.&lt;/p&gt;
+&lt;p&gt;The Code given above is an entry in a vector table for handling synchronous exceptions from lower EL in AARCH64 state. We can write the code here to handle the exception at the hypervisor level or Exception Level 2. In the next post, we will learn about forwarding an &lt;code&gt;smc&lt;/code&gt; exception to EL3.&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Welcome to my blog!</title>
       <link>https://osmten.github.io/posts/intro/</link>

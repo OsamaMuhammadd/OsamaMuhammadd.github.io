@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Osama</title>
-    <link>https://osmten.github.io/</link>
-    <description>Recent content on Osama</description>
+    <title>Arm on Osama</title>
+    <link>https://osmten.github.io/tags/arm/</link>
+    <description>Recent content in Arm on Osama</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Apr 2022 02:44:47 +0500</lastBuildDate><atom:link href="https://osmten.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Apr 2022 16:12:28 +0500</lastBuildDate><atom:link href="https://osmten.github.io/tags/arm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Exception Trapping In Armv8</title>
       <link>https://osmten.github.io/posts/exceptions/</link>
@@ -94,29 +94,6 @@ sync_lower_64:
 //we will write the code here to handle the exception or forward it to Exception Level 3.&lt;/p&gt;
 &lt;p&gt;The Code given above is an entry in a vector table for handling synchronous exceptions from lower EL in AARCH64 state. We can write the code here to handle the exception at the hypervisor level or Exception Level 2. In the next post, we will learn about forwarding an &lt;code&gt;smc&lt;/code&gt; exception to EL3.&lt;/p&gt;
 </content>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://osmten.github.io/about/</link>
-      <pubDate>Thu, 28 Apr 2022 02:44:47 +0500</pubDate>
-      
-      <guid>https://osmten.github.io/about/</guid>
-      <description>Hi, I&amp;rsquo;m Osama Muhammad. Currently, I&amp;rsquo;m working on a hypervisor for ARMv8 Architecure. I&amp;rsquo;ll write about bare-metal, Linux kernel, virtualization and the problems I faced while building the hypervisor.
-Please visit my github for the work that I&amp;rsquo;m currently doing and reach out to me on linkedin.</description>
-      <content>&lt;p&gt;Hi, I&amp;rsquo;m Osama Muhammad. Currently, I&amp;rsquo;m working on a hypervisor for ARMv8 Architecure. I&amp;rsquo;ll write about bare-metal, Linux kernel, virtualization and the problems I faced while building the hypervisor.&lt;br&gt;
-Please visit my &lt;a href=&#34;https://github.com/osmten&#34;&gt;github&lt;/a&gt; for the work that I&amp;rsquo;m currently doing and reach out to me on &lt;a href=&#34;www.linkedin.com/in/osmten&#34;&gt;linkedin&lt;/a&gt;.&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Welcome to my blog!</title>
-      <link>https://osmten.github.io/posts/intro/</link>
-      <pubDate>Wed, 27 Apr 2022 20:19:28 +0500</pubDate>
-      
-      <guid>https://osmten.github.io/posts/intro/</guid>
-      <description></description>
-      <content></content>
     </item>
     
   </channel>
